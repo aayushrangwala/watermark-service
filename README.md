@@ -17,7 +17,7 @@ Implement the Watermark-Service using RESTful APIs in microservice-oriented mode
 
 1. A microservice for watermarking and returning the ticket-id API and user authorization API. Users allowed: SuperAdmin, Default
 2. A microservice for retrieving a book by its ticket-id when finished.
-3. An API for retrieving the statuses by it's ticket-id
+3. An API for retrieving the statuses by its ticket-id
 
 #### Note
 Provide sufficient Unit-Tests to ensure the functionality of the service by giving enough logging output monitoring various (10 books, 10 Journals)
