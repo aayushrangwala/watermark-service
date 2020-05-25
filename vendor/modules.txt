@@ -1,14 +1,29 @@
-# github.com/aayushrangwala/User-Microservice v0.0.0-20190622073656-a4c12bf6af66
-github.com/aayushrangwala/User-Microservice/pkg/services/v1
-github.com/aayushrangwala/User-Microservice/util
-# github.com/gorilla/mux v1.7.4
-github.com/gorilla/mux
+# github.com/go-kit/kit v0.10.0
+github.com/go-kit/kit/endpoint
+github.com/go-kit/kit/transport/grpc
+github.com/go-kit/kit/transport/http
+github.com/go-kit/kit/log
+github.com/go-kit/kit/transport
+# github.com/go-logfmt/logfmt v0.5.0
+github.com/go-logfmt/logfmt
+# github.com/golang/protobuf v1.4.2
+github.com/golang/protobuf/proto
+github.com/golang/protobuf/ptypes
+github.com/golang/protobuf/ptypes/any
+github.com/golang/protobuf/ptypes/duration
+github.com/golang/protobuf/ptypes/timestamp
+# github.com/google/uuid v1.1.1
+github.com/google/uuid
 # github.com/hpcloud/tail v1.0.0
 github.com/hpcloud/tail
 github.com/hpcloud/tail/ratelimiter
 github.com/hpcloud/tail/util
 github.com/hpcloud/tail/watch
 github.com/hpcloud/tail/winfile
+# github.com/konsorten/go-windows-terminal-sequences v1.0.3
+github.com/konsorten/go-windows-terminal-sequences
+# github.com/lithammer/shortuuid/v3 v3.0.4
+github.com/lithammer/shortuuid/v3
 # github.com/onsi/ginkgo v1.12.0
 github.com/onsi/ginkgo
 github.com/onsi/ginkgo/config
@@ -41,13 +56,25 @@ github.com/onsi/gomega/matchers/support/goraph/bipartitegraph
 github.com/onsi/gomega/matchers/support/goraph/edge
 github.com/onsi/gomega/matchers/support/goraph/node
 github.com/onsi/gomega/matchers/support/goraph/util
-# golang.org/x/net v0.0.0-20180906233101-161cd47e91fd
+# github.com/sirupsen/logrus v1.6.0
+github.com/sirupsen/logrus
+# golang.org/x/net v0.0.0-20190813141303-74dc4d7220e7
+golang.org/x/net/context
+golang.org/x/net/trace
+golang.org/x/net/internal/timeseries
+golang.org/x/net/http2
+golang.org/x/net/http2/hpack
+golang.org/x/net/http/httpguts
+golang.org/x/net/idna
 golang.org/x/net/html/charset
 golang.org/x/net/html
 golang.org/x/net/html/atom
-# golang.org/x/sys v0.0.0-20191120155948-bd437916bb0e
+# golang.org/x/sys v0.0.0-20191220142924-d4481acd189f
 golang.org/x/sys/unix
-# golang.org/x/text v0.3.0
+# golang.org/x/text v0.3.2
+golang.org/x/text/secure/bidirule
+golang.org/x/text/unicode/bidi
+golang.org/x/text/unicode/norm
 golang.org/x/text/encoding
 golang.org/x/text/encoding/charmap
 golang.org/x/text/encoding/htmlindex
@@ -62,10 +89,82 @@ golang.org/x/text/encoding/unicode
 golang.org/x/text/language
 golang.org/x/text/internal/utf8internal
 golang.org/x/text/runes
+golang.org/x/text/internal/language
+golang.org/x/text/internal/language/compact
 golang.org/x/text/internal/tag
-# golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7
+# golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
 golang.org/x/xerrors
 golang.org/x/xerrors/internal
+# google.golang.org/genproto v0.0.0-20190819201941-24fa4b261c55
+google.golang.org/genproto/googleapis/rpc/status
+# google.golang.org/grpc v1.26.0
+google.golang.org/grpc
+google.golang.org/grpc/backoff
+google.golang.org/grpc/balancer
+google.golang.org/grpc/balancer/base
+google.golang.org/grpc/balancer/roundrobin
+google.golang.org/grpc/codes
+google.golang.org/grpc/connectivity
+google.golang.org/grpc/credentials
+google.golang.org/grpc/encoding
+google.golang.org/grpc/encoding/proto
+google.golang.org/grpc/grpclog
+google.golang.org/grpc/internal
+google.golang.org/grpc/internal/backoff
+google.golang.org/grpc/internal/balancerload
+google.golang.org/grpc/internal/binarylog
+google.golang.org/grpc/internal/buffer
+google.golang.org/grpc/internal/channelz
+google.golang.org/grpc/internal/envconfig
+google.golang.org/grpc/internal/grpcrand
+google.golang.org/grpc/internal/grpcsync
+google.golang.org/grpc/internal/resolver/dns
+google.golang.org/grpc/internal/resolver/passthrough
+google.golang.org/grpc/internal/transport
+google.golang.org/grpc/keepalive
+google.golang.org/grpc/metadata
+google.golang.org/grpc/naming
+google.golang.org/grpc/peer
+google.golang.org/grpc/resolver
+google.golang.org/grpc/serviceconfig
+google.golang.org/grpc/stats
+google.golang.org/grpc/status
+google.golang.org/grpc/tap
+google.golang.org/grpc/credentials/internal
+google.golang.org/grpc/binarylog/grpc_binarylog_v1
+google.golang.org/grpc/internal/syscall
+google.golang.org/grpc/attributes
+# google.golang.org/protobuf v1.23.0
+google.golang.org/protobuf/encoding/prototext
+google.golang.org/protobuf/encoding/protowire
+google.golang.org/protobuf/proto
+google.golang.org/protobuf/reflect/protoreflect
+google.golang.org/protobuf/reflect/protoregistry
+google.golang.org/protobuf/runtime/protoiface
+google.golang.org/protobuf/runtime/protoimpl
+google.golang.org/protobuf/internal/encoding/messageset
+google.golang.org/protobuf/internal/encoding/text
+google.golang.org/protobuf/internal/errors
+google.golang.org/protobuf/internal/fieldnum
+google.golang.org/protobuf/internal/flags
+google.golang.org/protobuf/internal/mapsort
+google.golang.org/protobuf/internal/pragma
+google.golang.org/protobuf/internal/set
+google.golang.org/protobuf/internal/strs
+google.golang.org/protobuf/internal/fieldsort
+google.golang.org/protobuf/internal/filedesc
+google.golang.org/protobuf/internal/filetype
+google.golang.org/protobuf/internal/impl
+google.golang.org/protobuf/internal/version
+google.golang.org/protobuf/internal/detrand
+google.golang.org/protobuf/internal/descfmt
+google.golang.org/protobuf/internal/descopts
+google.golang.org/protobuf/internal/encoding/defval
+google.golang.org/protobuf/internal/encoding/tag
+google.golang.org/protobuf/internal/genname
+google.golang.org/protobuf/types/known/anypb
+google.golang.org/protobuf/types/known/durationpb
+google.golang.org/protobuf/types/known/timestamppb
 # gopkg.in/fsnotify.v1 v1.4.7
 gopkg.in/fsnotify.v1
 # gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7
