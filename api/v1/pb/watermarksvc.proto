@@ -32,6 +32,7 @@ message GetRequest {
 
 message GetReply {
     repeated Document documents = 1;
+    string Err = 2;
 }
 
 message StatusRequest {
@@ -66,7 +67,7 @@ message AddDocumentRequest {
 
 message AddDocumentReply {
     string ticketID = 1;
-    string mark = 2;
+    string err = 2;
 }
 
 message ServiceStatusRequest {}
