@@ -3,21 +3,28 @@ package watermark
 import (
 	"context"
 	"net/http"
+	"os"
 
 	"github.com/aayushrangwala/watermark-service/internal"
 
+	"github.com/go-kit/kit/log"
 	"github.com/lithammer/shortuuid/v3"
-	log "github.com/sirupsen/logrus"
 )
 
-type watermarkService struct {}
+type watermarkService struct{}
 
-func NewService() Service {return &watermarkService{}}
+func NewService() Service { return &watermarkService{} }
 
 func (w *watermarkService) Get(ctx context.Context, filters ...internal.Filter) ([]internal.Document, error) {
 	// query the database using the filters and return the list of documents
 	// return error if the filter (key) is invalid and also return error if no item found
-	return []internal.Document{}, nil
+	doc := internal.Document{
+		Content: "book",
+		Title:   "Harry Potter and Half Blood Prince",
+		Author:  "J.K. Rowling",
+		Topic:   "Fiction and Magic",
+	}
+	return []internal.Document{doc}, nil
 }
 
 func (w *watermarkService) Status(ctx context.Context, ticketID string) (internal.Status, error) {
@@ -34,15 +41,21 @@ func (w *watermarkService) Watermark(ctx context.Context, ticketID, mark string)
 	return http.StatusOK, nil
 }
 
-func (w *watermarkService) AddDocument(ctx context.Context, doc internal.Document) (string, error) {
+func (w *watermarkService) AddDocument(ctx context.Context, doc *internal.Document) (string, error) {
 	// add the document entry in the database by calling the database service
 	// return error if the doc is invalid and/or the database invalid entry error
 	newTicketID := shortuuid.New()
 	return newTicketID, nil
 }
 
-
 func (w *watermarkService) ServiceStatus(ctx context.Context) (int, error) {
-	log.Infof("Checking the Service health...")
+	logger.Log("Checking the Service health...")
 	return http.StatusOK, nil
+}
+
+var logger log.Logger
+
+func init() {
+	logger = log.NewLogfmtLogger(log.NewSyncWriter(os.Stderr))
+	logger = log.With(logger, "ts", log.DefaultTimestampUTC)
 }
