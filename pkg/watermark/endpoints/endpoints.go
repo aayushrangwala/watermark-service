@@ -3,19 +3,21 @@ package endpoints
 import (
 	"context"
 	"errors"
-
-	"github.com/go-kit/kit/endpoint"
+	"os"
 
 	"github.com/aayushrangwala/watermark-service/internal"
 	"github.com/aayushrangwala/watermark-service/pkg/watermark"
+
+	"github.com/go-kit/kit/endpoint"
+	"github.com/go-kit/kit/log"
 )
 
 type Set struct {
-	GetEndpoint endpoint.Endpoint
-	AddDocumentEndpoint endpoint.Endpoint
-	StatusEndpoint endpoint.Endpoint
+	GetEndpoint           endpoint.Endpoint
+	AddDocumentEndpoint   endpoint.Endpoint
+	StatusEndpoint        endpoint.Endpoint
 	ServiceStatusEndpoint endpoint.Endpoint
-	WatermarkEndpoint endpoint.Endpoint
+	WatermarkEndpoint     endpoint.Endpoint
 }
 
 func NewEndpointSet(svc watermark.Service) Set {
@@ -141,4 +143,11 @@ func (s *Set) Watermark(ctx context.Context, ticketID, mark string) (int, error)
 		return wmResp.Code, errors.New(wmResp.Err)
 	}
 	return wmResp.Code, nil
+}
+
+var logger log.Logger
+
+func init() {
+	logger = log.NewLogfmtLogger(log.NewSyncWriter(os.Stderr))
+	logger = log.With(logger, "ts", log.DefaultTimestampUTC)
 }

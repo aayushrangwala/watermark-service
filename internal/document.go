@@ -1,10 +1,10 @@
 package internal
 
 type Document struct {
-	Content string `json:"content"`
-	Title string `json:"title"`
-	Author string `json:"author"`
-	Topic string `json:"topic"`
+	Content   string `json:"content"`
+	Title     string `json:"title"`
+	Author    string `json:"author"`
+	Topic     string `json:"topic"`
 	Watermark string `json:"watermark,omitempty"`
 }
 
@@ -18,9 +18,9 @@ type Filter struct {
 type Status string
 
 const (
-	Pending Status = "Pending"
-	Started Status = "Started"
+	Pending    Status = "Pending"
+	Started    Status = "Started"
 	InProgress Status = "InProgress"
-	Finished Status = "Finished"
-	Failed Status = "Failed"
+	Finished   Status = "Finished"
+	Failed     Status = "Failed"
 )

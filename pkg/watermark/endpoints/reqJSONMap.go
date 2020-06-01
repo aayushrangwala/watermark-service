@@ -2,13 +2,13 @@ package endpoints
 
 import "github.com/aayushrangwala/watermark-service/internal"
 
-type GetRequest struct{
+type GetRequest struct {
 	Filters []internal.Filter `json:"filters,omitempty"`
 }
 
 type GetResponse struct {
 	Documents []internal.Document `json:"documents"`
-	Err string `json:"err,omitempty"`
+	Err       string              `json:"err,omitempty"`
 }
 
 type StatusRequest struct {
@@ -17,17 +17,17 @@ type StatusRequest struct {
 
 type StatusResponse struct {
 	Status internal.Status `json:"status"`
-	Err string `json:"err,omitempty"`
+	Err    string          `json:"err,omitempty"`
 }
 
 type WatermarkRequest struct {
 	TicketID string `json:"ticketID"`
-	Mark string `json:"mark"`
+	Mark     string `json:"mark"`
 }
 
 type WatermarkResponse struct {
-	Code int `json:"code"`
-	Err string `json:"err"`
+	Code int    `json:"code"`
+	Err  string `json:"err"`
 }
 
 type AddDocumentRequest struct {
@@ -36,12 +36,12 @@ type AddDocumentRequest struct {
 
 type AddDocumentResponse struct {
 	TicketID string `json:"ticketID"`
-	Err string `json:"err,omitempty"`
+	Err      string `json:"err,omitempty"`
 }
 
-type ServiceStatusRequest struct {}
+type ServiceStatusRequest struct{}
 
 type ServiceStatusResponse struct {
-	Code int `json:"status"`
-	Err string `json:"err,omitempty"`
+	Code int    `json:"status"`
+	Err  string `json:"err,omitempty"`
 }

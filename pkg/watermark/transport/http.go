@@ -4,10 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"os"
 
 	"github.com/aayushrangwala/watermark-service/internal/util"
 	"github.com/aayushrangwala/watermark-service/pkg/watermark/endpoints"
 
+	"github.com/go-kit/kit/log"
 	httptransport "github.com/go-kit/kit/transport/http"
 )
 
@@ -19,22 +21,22 @@ func NewHTTPHandler(ep endpoints.Set) http.Handler {
 		decodeHTTPServiceStatusRequest,
 		encodeResponse,
 	))
-	m.Handle("/status", httptransport.NewServer(
+	m.Handle("/status/v1", httptransport.NewServer(
 		ep.StatusEndpoint,
 		decodeHTTPStatusRequest,
 		encodeResponse,
 	))
-	m.Handle("/addDocument", httptransport.NewServer(
+	m.Handle("/addDocument/v1", httptransport.NewServer(
 		ep.AddDocumentEndpoint,
 		decodeHTTPAddDocumentRequest,
 		encodeResponse,
 	))
-	m.Handle("/get", httptransport.NewServer(
+	m.Handle("/get/v1", httptransport.NewServer(
 		ep.GetEndpoint,
 		decodeHTTPGetRequest,
 		encodeResponse,
 	))
-	m.Handle("/watermark", httptransport.NewServer(
+	m.Handle("/watermark/v1", httptransport.NewServer(
 		ep.WatermarkEndpoint,
 		decodeHTTPWatermarkRequest,
 		encodeResponse,
@@ -43,8 +45,17 @@ func NewHTTPHandler(ep endpoints.Set) http.Handler {
 	return m
 }
 
-func decodeHTTPGetRequest(ctx context.Context, r *http.Request) (interface{}, error) {
-	return endpoints.GetRequest{}, nil
+func decodeHTTPGetRequest(_ context.Context, r *http.Request) (interface{}, error) {
+	var req endpoints.GetRequest
+	if r.ContentLength == 0 {
+		logger.Log("Get request with no body")
+		return req, nil
+	}
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		return nil, err
+	}
+	return req, nil
 }
 
 func decodeHTTPStatusRequest(ctx context.Context, r *http.Request) (interface{}, error) {
@@ -56,7 +67,7 @@ func decodeHTTPStatusRequest(ctx context.Context, r *http.Request) (interface{},
 	return req, nil
 }
 
-func decodeHTTPWatermarkRequest(ctx context.Context, r *http.Request) (interface{}, error) {
+func decodeHTTPWatermarkRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var req endpoints.WatermarkRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
@@ -65,7 +76,7 @@ func decodeHTTPWatermarkRequest(ctx context.Context, r *http.Request) (interface
 	return req, nil
 }
 
-func decodeHTTPAddDocumentRequest(ctx context.Context, r *http.Request) (interface{}, error) {
+func decodeHTTPAddDocumentRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var req endpoints.AddDocumentRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
@@ -74,12 +85,8 @@ func decodeHTTPAddDocumentRequest(ctx context.Context, r *http.Request) (interfa
 	return req, nil
 }
 
-func decodeHTTPServiceStatusRequest(ctx context.Context, r *http.Request) (interface{}, error) {
+func decodeHTTPServiceStatusRequest(_ context.Context, _ *http.Request) (interface{}, error) {
 	var req endpoints.ServiceStatusRequest
-	err := json.NewDecoder(r.Body).Decode(&req)
-	if err != nil {
-		return nil, err
-	}
 	return req, nil
 }
 
@@ -104,4 +111,11 @@ func encodeError(_ context.Context, err error, w http.ResponseWriter) {
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"error": err.Error(),
 	})
+}
+
+var logger log.Logger
+
+func init() {
+	logger = log.NewLogfmtLogger(log.NewSyncWriter(os.Stderr))
+	logger = log.With(logger, "ts", log.DefaultTimestampUTC)
 }
