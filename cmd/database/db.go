@@ -8,10 +8,11 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/aayushrangwala/watermark-service/api/v1/pb"
-	"github.com/aayushrangwala/watermark-service/pkg/watermark"
-	"github.com/aayushrangwala/watermark-service/pkg/watermark/endpoints"
-	"github.com/aayushrangwala/watermark-service/pkg/watermark/transport"
+	pb "github.com/aayushrangwala/watermark-service/api/v1/pb/db"
+	"github.com/aayushrangwala/watermark-service/internal/database"
+	dbsvc "github.com/aayushrangwala/watermark-service/pkg/database"
+	"github.com/aayushrangwala/watermark-service/pkg/database/endpoints"
+	"github.com/aayushrangwala/watermark-service/pkg/database/transport"
 
 	"github.com/go-kit/kit/log"
 	kitgrpc "github.com/go-kit/kit/transport/grpc"
@@ -24,18 +25,15 @@ const (
 	defaultGRPCPort = "8082"
 )
 
+var (
+	logger   log.Logger
+	httpAddr = net.JoinHostPort("localhost", envString("HTTP_PORT", defaultHTTPPort))
+	grpcAddr = net.JoinHostPort("localhost", envString("GRPC_PORT", defaultGRPCPort))
+)
+
 func main() {
 	var (
-		logger   log.Logger
-		httpAddr = net.JoinHostPort("localhost", envString("HTTP_PORT", defaultHTTPPort))
-		grpcAddr = net.JoinHostPort("localhost", envString("GRPC_PORT", defaultGRPCPort))
-	)
-
-	logger = log.NewLogfmtLogger(log.NewSyncWriter(os.Stderr))
-	logger = log.With(logger, "ts", log.DefaultTimestampUTC)
-
-	var (
-		service     = watermark.NewService()
+		service     = dbsvc.NewService()
 		eps         = endpoints.NewEndpointSet(service)
 		httpHandler = transport.NewHTTPHandler(eps)
 		grpcServer  = transport.NewGRPCServer(eps)
@@ -68,7 +66,7 @@ func main() {
 			// we add the Go Kit gRPC Interceptor to our gRPC service as it is used by
 			// the here demonstrated zipkin tracing middleware.
 			baseServer := grpc.NewServer(grpc.UnaryInterceptor(kitgrpc.Interceptor))
-			pb.RegisterWatermarkServer(baseServer, grpcServer)
+			pb.RegisterDatabaseServer(baseServer, grpcServer)
 			return baseServer.Serve(grpcListener)
 		}, func(error) {
 			grpcListener.Close()
@@ -99,4 +97,21 @@ func envString(env, fallback string) string {
 		return fallback
 	}
 	return e
+}
+
+func init() {
+	logger = log.NewLogfmtLogger(log.NewSyncWriter(os.Stderr))
+	logger = log.With(logger, "ts", log.DefaultTimestampUTC)
+
+	db, err := database.Init(database.DefaultHost, database.DefaultPort, database.DefaultDBUser, database.DefaultDatabase,
+		database.DefaultPassword)
+	defer func() {
+		err := db.Close()
+		if err != nil {
+			logger.Log("ERROR::Failed to close the database connection ", err.Error())
+		}
+	}()
+	if err != nil {
+		logger.Log(fmt.Sprintf("FATAL: failed to load db with error: %s", err.Error()))
+	}
 }

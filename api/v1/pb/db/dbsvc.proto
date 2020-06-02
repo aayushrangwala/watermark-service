@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package db;
+
+service database {
+    rpc Get (GetRequest) returns (GetReply) {}
+
+    rpc Remove (RemoveRequest) returns (RemoveReply) {}
+
+    rpc Update (UpdateRequest) returns (UpdateReply) {}
+
+    rpc Add (AddRequest) returns (AddReply) {}
+
+    rpc ServiceStatus (ServiceStatusRequest) returns (ServiceStatusReply) {}
+}
+
+message Document {
+    string content = 1;
+    string title = 2;
+    string author = 3;
+    string topic = 4;
+    string watermark = 5;
+}
+
+message GetRequest {
+    message Filters {
+        string key = 1;
+        string value = 2;
+    }
+    repeated Filters filters = 1;
+}
+
+message GetReply {
+    repeated Document documents = 1;
+    string Err = 2;
+}
+
+message UpdateRequest {
+    string ticketID = 1;
+    Document document = 2;
+}
+
+message UpdateReply {
+    int64 code = 1;
+    string err = 2;
+}
+
+message RemoveRequest {
+    string ticketID = 1;
+}
+
+message RemoveReply {
+    int64 code = 1;
+    string err = 2;
+}
+
+message AddRequest {
+    Document document = 1;
+}
+
+message AddReply {
+    string ticketID = 1;
+    string err = 2;
+}
+
+message ServiceStatusRequest {}
+
+message ServiceStatusReply {
+    int64 code = 1;
+    string err = 2;
+}

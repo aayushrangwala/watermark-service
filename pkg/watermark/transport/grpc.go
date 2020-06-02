@@ -3,7 +3,8 @@ package transport
 import (
 	"context"
 
-	"github.com/aayushrangwala/watermark-service/api/v1/pb"
+	"github.com/aayushrangwala/watermark-service/api/v1/pb/watermark"
+
 	"github.com/aayushrangwala/watermark-service/internal"
 	"github.com/aayushrangwala/watermark-service/pkg/watermark/endpoints"
 
@@ -18,7 +19,7 @@ type grpcServer struct {
 	serviceStatus grpctransport.Handler
 }
 
-func NewGRPCServer(ep endpoints.Set) pb.WatermarkServer {
+func NewGRPCServer(ep endpoints.Set) watermark.WatermarkServer {
 	return &grpcServer{
 		get: grpctransport.NewServer(
 			ep.GetEndpoint,
@@ -48,48 +49,48 @@ func NewGRPCServer(ep endpoints.Set) pb.WatermarkServer {
 	}
 }
 
-func (g *grpcServer) Get(ctx context.Context, r *pb.GetRequest) (*pb.GetReply, error) {
+func (g *grpcServer) Get(ctx context.Context, r *watermark.GetRequest) (*watermark.GetReply, error) {
 	_, rep, err := g.get.ServeGRPC(ctx, r)
 	if err != nil {
 		return nil, err
 	}
-	return rep.(*pb.GetReply), nil
+	return rep.(*watermark.GetReply), nil
 }
 
-func (g *grpcServer) ServiceStatus(ctx context.Context, r *pb.ServiceStatusRequest) (*pb.ServiceStatusReply, error) {
+func (g *grpcServer) ServiceStatus(ctx context.Context, r *watermark.ServiceStatusRequest) (*watermark.ServiceStatusReply, error) {
 	_, rep, err := g.get.ServeGRPC(ctx, r)
 	if err != nil {
 		return nil, err
 	}
-	return rep.(*pb.ServiceStatusReply), nil
+	return rep.(*watermark.ServiceStatusReply), nil
 }
 
-func (g *grpcServer) AddDocument(ctx context.Context, r *pb.AddDocumentRequest) (*pb.AddDocumentReply, error) {
+func (g *grpcServer) AddDocument(ctx context.Context, r *watermark.AddDocumentRequest) (*watermark.AddDocumentReply, error) {
 	_, rep, err := g.addDocument.ServeGRPC(ctx, r)
 	if err != nil {
 		return nil, err
 	}
-	return rep.(*pb.AddDocumentReply), nil
+	return rep.(*watermark.AddDocumentReply), nil
 }
 
-func (g *grpcServer) Status(ctx context.Context, r *pb.StatusRequest) (*pb.StatusReply, error) {
+func (g *grpcServer) Status(ctx context.Context, r *watermark.StatusRequest) (*watermark.StatusReply, error) {
 	_, rep, err := g.status.ServeGRPC(ctx, r)
 	if err != nil {
 		return nil, err
 	}
-	return rep.(*pb.StatusReply), nil
+	return rep.(*watermark.StatusReply), nil
 }
 
-func (g *grpcServer) Watermark(ctx context.Context, r *pb.WatermarkRequest) (*pb.WatermarkReply, error) {
+func (g *grpcServer) Watermark(ctx context.Context, r *watermark.WatermarkRequest) (*watermark.WatermarkReply, error) {
 	_, rep, err := g.watermark.ServeGRPC(ctx, r)
 	if err != nil {
 		return nil, err
 	}
-	return rep.(*pb.WatermarkReply), nil
+	return rep.(*watermark.WatermarkReply), nil
 }
 
 func decodeGRPCGetRequest(_ context.Context, grpcReq interface{}) (interface{}, error) {
-	req := grpcReq.(*pb.GetRequest)
+	req := grpcReq.(*watermark.GetRequest)
 	var filters []internal.Filter
 	for _, f := range req.Filters {
 		filters = append(filters, internal.Filter{Key: f.Key, Value: f.Value})
@@ -98,17 +99,17 @@ func decodeGRPCGetRequest(_ context.Context, grpcReq interface{}) (interface{}, 
 }
 
 func decodeGRPCStatusRequest(_ context.Context, grpcReq interface{}) (interface{}, error) {
-	req := grpcReq.(*pb.StatusRequest)
+	req := grpcReq.(*watermark.StatusRequest)
 	return endpoints.StatusRequest{TicketID: req.TicketID}, nil
 }
 
 func decodeGRPCWatermarkRequest(_ context.Context, grpcReq interface{}) (interface{}, error) {
-	req := grpcReq.(*pb.WatermarkRequest)
+	req := grpcReq.(*watermark.WatermarkRequest)
 	return endpoints.WatermarkRequest{TicketID: req.TicketID, Mark: req.Mark}, nil
 }
 
 func decodeGRPCAddDocumentRequest(_ context.Context, grpcReq interface{}) (interface{}, error) {
-	req := grpcReq.(*pb.AddDocumentRequest)
+	req := grpcReq.(*watermark.AddDocumentRequest)
 	doc := &internal.Document{
 		Content:   req.Document.Content,
 		Title:     req.Document.Title,
@@ -124,7 +125,7 @@ func decodeGRPCServiceStatusRequest(_ context.Context, grpcReq interface{}) (int
 }
 
 func decodeGRPCGetResponse(_ context.Context, grpcReply interface{}) (interface{}, error) {
-	reply := grpcReply.(*pb.GetReply)
+	reply := grpcReply.(*watermark.GetReply)
 	var docs []internal.Document
 	for _, d := range reply.Documents {
 		doc := internal.Document{
@@ -140,21 +141,21 @@ func decodeGRPCGetResponse(_ context.Context, grpcReply interface{}) (interface{
 }
 
 func decodeGRPCStatusResponse(_ context.Context, grpcReply interface{}) (interface{}, error) {
-	reply := grpcReply.(*pb.StatusReply)
+	reply := grpcReply.(*watermark.StatusReply)
 	return endpoints.StatusResponse{Status: internal.Status(reply.Status), Err: reply.Err}, nil
 }
 
 func decodeGRPCWatermarkResponse(ctx context.Context, grpcReply interface{}) (interface{}, error) {
-	reply := grpcReply.(*pb.WatermarkReply)
+	reply := grpcReply.(*watermark.WatermarkReply)
 	return endpoints.WatermarkResponse{Code: int(reply.Code), Err: reply.Err}, nil
 }
 
 func decodeGRPCAddDocumentResponse(ctx context.Context, grpcReply interface{}) (interface{}, error) {
-	reply := grpcReply.(*pb.AddDocumentReply)
+	reply := grpcReply.(*watermark.AddDocumentReply)
 	return endpoints.AddDocumentResponse{TicketID: reply.TicketID, Err: reply.Err}, nil
 }
 
 func decodeGRPCServiceStatusResponse(ctx context.Context, grpcReply interface{}) (interface{}, error) {
-	reply := grpcReply.(*pb.ServiceStatusReply)
+	reply := grpcReply.(*watermark.ServiceStatusReply)
 	return endpoints.ServiceStatusResponse{Code: int(reply.Code), Err: reply.Err}, nil
 }
