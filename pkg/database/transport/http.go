@@ -21,22 +21,22 @@ func NewHTTPHandler(ep endpoints.Set) http.Handler {
 		decodeHTTPServiceStatusRequest,
 		encodeResponse,
 	))
-	m.Handle("/update/v1", httptransport.NewServer(
+	m.Handle("/update", httptransport.NewServer(
 		ep.UpdateEndpoint,
 		decodeHTTPUpdateRequest,
 		encodeResponse,
 	))
-	m.Handle("/add/v1", httptransport.NewServer(
+	m.Handle("/add", httptransport.NewServer(
 		ep.AddEndpoint,
 		decodeHTTPAddRequest,
 		encodeResponse,
 	))
-	m.Handle("/get/v1", httptransport.NewServer(
+	m.Handle("/get", httptransport.NewServer(
 		ep.GetEndpoint,
 		decodeHTTPGetRequest,
 		encodeResponse,
 	))
-	m.Handle("/remove/v1", httptransport.NewServer(
+	m.Handle("/remove", httptransport.NewServer(
 		ep.RemoveEndpoint,
 		decodeHTTPRemoveRequest,
 		encodeResponse,
