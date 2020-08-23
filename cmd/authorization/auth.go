@@ -8,9 +8,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	pb "github.com/aayushrangwala/watermark-service/api/v1/pb/watermark"
-	"github.com/aayushrangwala/watermark-service/pkg/watermark/endpoints"
-	"github.com/aayushrangwala/watermark-service/pkg/watermark/transport"
+	pb "watermarksvc/api/v1/pb/watermark"
+	"watermarksvc/pkg/watermark/endpoints"
+	"watermarksvc/pkg/watermark/transport"
 
 	"github.com/go-kit/kit/log"
 	kitgrpc "github.com/go-kit/kit/transport/grpc"

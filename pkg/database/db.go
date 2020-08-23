@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/aayushrangwala/watermark-service/internal"
+	"watermarksvc/internal"
 )
 
 type dbService struct{}

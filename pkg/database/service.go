@@ -3,7 +3,7 @@ package database
 import (
 	"context"
 
-	"github.com/aayushrangwala/watermark-service/internal"
+	"watermarksvc/internal"
 )
 
 type Service interface {

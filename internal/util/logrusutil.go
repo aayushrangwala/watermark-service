@@ -1,9 +1,7 @@
 // Package logrusutil implements some helpers for using logrus
 package util
 
-import (
-	"github.com/sirupsen/logrus"
-)
+import "github.com/sirupsen/logrus"
 
 // DefaultFieldsFormatter wraps another logrus.Formatter, injecting
 // DefaultFields into each Format() call, existing fields are preserved
