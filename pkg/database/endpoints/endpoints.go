@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/aayushrangwala/watermark-service/internal"
-	"github.com/aayushrangwala/watermark-service/pkg/database"
+	"watermarksvc/internal"
+	"watermarksvc/pkg/database"
 
 	"github.com/go-kit/kit/endpoint"
 	"github.com/go-kit/kit/log"

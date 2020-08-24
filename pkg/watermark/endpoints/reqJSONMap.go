@@ -1,6 +1,6 @@
 package endpoints
 
-import "github.com/aayushrangwala/watermark-service/internal"
+import "watermarksvc/internal"
 
 type GetRequest struct {
 	Filters []internal.Filter `json:"filters,omitempty"`

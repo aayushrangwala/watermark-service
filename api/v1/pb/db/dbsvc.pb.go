@@ -22,12 +22,15 @@ It has these top-level messages:
 */
 package db
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-
 import (
+	fmt "fmt"
+
+	proto "github.com/golang/protobuf/proto"
+
+	math "math"
+
 	context "golang.org/x/net/context"
+
 	grpc "google.golang.org/grpc"
 )
 
@@ -357,7 +360,7 @@ func NewDatabaseClient(cc *grpc.ClientConn) DatabaseClient {
 
 func (c *databaseClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetReply, error) {
 	out := new(GetReply)
-	err := grpc.Invoke(ctx, "/db.database/Get", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/db.model/Get", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -366,7 +369,7 @@ func (c *databaseClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.C
 
 func (c *databaseClient) Remove(ctx context.Context, in *RemoveRequest, opts ...grpc.CallOption) (*RemoveReply, error) {
 	out := new(RemoveReply)
-	err := grpc.Invoke(ctx, "/db.database/Remove", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/db.model/Remove", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -375,7 +378,7 @@ func (c *databaseClient) Remove(ctx context.Context, in *RemoveRequest, opts ...
 
 func (c *databaseClient) Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateReply, error) {
 	out := new(UpdateReply)
-	err := grpc.Invoke(ctx, "/db.database/Update", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/db.model/Update", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -384,7 +387,7 @@ func (c *databaseClient) Update(ctx context.Context, in *UpdateRequest, opts ...
 
 func (c *databaseClient) Add(ctx context.Context, in *AddRequest, opts ...grpc.CallOption) (*AddReply, error) {
 	out := new(AddReply)
-	err := grpc.Invoke(ctx, "/db.database/Add", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/db.model/Add", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -393,7 +396,7 @@ func (c *databaseClient) Add(ctx context.Context, in *AddRequest, opts ...grpc.C
 
 func (c *databaseClient) ServiceStatus(ctx context.Context, in *ServiceStatusRequest, opts ...grpc.CallOption) (*ServiceStatusReply, error) {
 	out := new(ServiceStatusReply)
-	err := grpc.Invoke(ctx, "/db.database/ServiceStatus", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/db.model/ServiceStatus", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -424,7 +427,7 @@ func _Database_Get_Handler(srv interface{}, ctx context.Context, dec func(interf
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/db.database/Get",
+		FullMethod: "/db.model/Get",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DatabaseServer).Get(ctx, req.(*GetRequest))
@@ -442,7 +445,7 @@ func _Database_Remove_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/db.database/Remove",
+		FullMethod: "/db.model/Remove",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DatabaseServer).Remove(ctx, req.(*RemoveRequest))
@@ -460,7 +463,7 @@ func _Database_Update_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/db.database/Update",
+		FullMethod: "/db.model/Update",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DatabaseServer).Update(ctx, req.(*UpdateRequest))
@@ -478,7 +481,7 @@ func _Database_Add_Handler(srv interface{}, ctx context.Context, dec func(interf
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/db.database/Add",
+		FullMethod: "/db.model/Add",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DatabaseServer).Add(ctx, req.(*AddRequest))
@@ -496,7 +499,7 @@ func _Database_ServiceStatus_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/db.database/ServiceStatus",
+		FullMethod: "/db.model/ServiceStatus",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DatabaseServer).ServiceStatus(ctx, req.(*ServiceStatusRequest))
@@ -505,7 +508,7 @@ func _Database_ServiceStatus_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 var _Database_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "db.database",
+	ServiceName: "db.model",
 	HandlerType: (*DatabaseServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

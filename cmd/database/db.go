@@ -8,11 +8,11 @@ import (
 	"os/signal"
 	"syscall"
 
-	pb "github.com/aayushrangwala/watermark-service/api/v1/pb/db"
-	"github.com/aayushrangwala/watermark-service/internal/database"
-	dbsvc "github.com/aayushrangwala/watermark-service/pkg/database"
-	"github.com/aayushrangwala/watermark-service/pkg/database/endpoints"
-	"github.com/aayushrangwala/watermark-service/pkg/database/transport"
+	pb "watermarksvc/api/v1/pb/db"
+	"watermarksvc/internal/database"
+	"watermarksvc/pkg/database/endpoints"
+	"watermarksvc/pkg/database/transport"
+	dbsvc "watermarksvc/pkg/model"
 
 	"github.com/go-kit/kit/log"
 	kitgrpc "github.com/go-kit/kit/transport/grpc"
@@ -108,7 +108,7 @@ func init() {
 	defer func() {
 		err := db.Close()
 		if err != nil {
-			logger.Log("ERROR::Failed to close the database connection ", err.Error())
+			logger.Log("ERROR::Failed to close the model connection ", err.Error())
 		}
 	}()
 	if err != nil {
